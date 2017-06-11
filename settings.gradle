@@ -1,0 +1,2 @@
+rootProject.name = 'structmapper'
+include 'structmapper-annotations', 'structmapper-processor', 'structmapper-test'

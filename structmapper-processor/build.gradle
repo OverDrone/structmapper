@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse-wtp'
+
+dependencies {
+    compile 'com.google.guava:guava:21.0'
+    compile 'com.squareup:javapoet:1.9.0'
+    compileOnly 'com.google.auto.service:auto-service:1.0-rc3'
+    compile project(':structmapper-annotations')
+}

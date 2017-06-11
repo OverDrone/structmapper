@@ -1,0 +1,38 @@
+subprojects {
+    repositories {
+        jcenter()
+    }
+
+
+    tasks.withType(JavaCompile) { 
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+        options.encoding = 'UTF-8'
+
+        configurations.all {
+            exclude group: "commons-logging", module: "commons-logging"
+        }
+    }
+
+    project.afterEvaluate {
+        tasks.withType(JavaCompile) { task ->
+            if (task.hasProperty('aptOptions')) {
+                //aptOptions.processorArgs = ['structmapper.components': 'spring']
+            }
+        }
+
+        //apt+eclipse patch. hopefully will be integrated into apt plugin
+        def eclipseJdtAptTask = tasks.findByName('eclipseJdtApt')
+        if (eclipseJdtAptTask != null) {
+            eclipseJdtAptTask << {
+                compileJava.aptOptions.processorArgs.each { k, v ->
+                    aptPrefs.text += "org.eclipse.jdt.apt.processorOptions/${k}=${v}\n";
+                }
+            }
+        }
+    }
+}
+
+ext {
+    springVersion = '4.3.7.RELEASE'
+}
